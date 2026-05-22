@@ -1,0 +1,13 @@
+name: Docker Build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build Docker image
+      run: docker build -t logger .
+    - name: Run container
+      run: |
+        mkdir -p logs
+        echo -e "test1\ntest2\ntest3" | docker run -i -v "$(pwd)/logs:/home/logs/" logger
